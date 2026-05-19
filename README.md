@@ -4,6 +4,13 @@ This repository contains a fix to get **Forza Horizon 6** running on older hardw
 
 The fix uses two proxy DLLs to trick the game into thinking your hardware is supported, bypassing the startup crashes.
 
+> [!WARNING]
+> **Experimental Project**: This project is highly experimental and can crash at any time. Use at your own risk!
+> 
+> **Driver Requirement**: This fix specifically requires the [AMD Agility SDK Driver](https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-MS-AGILITY-SDK-2023-6-711.html) to function correctly.
+> 
+> **Other Games**: The GPU proxy (`d3d12.dll`) can be used to bypass DirectX 12 Feature Level checks in other games as well (successfully tested in *Assassin's Creed Shadows*).
+
 ---
 
 ## 📁 Project Structure

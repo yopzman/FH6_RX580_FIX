@@ -2,6 +2,13 @@
 
 This fix bypasses the **FH201** and **FH205** hardware errors you get when trying to play Forza Horizon 6 on an AMD Radeon RX 580 (or similar Polaris GPU).
 
+> [!WARNING]
+> **Experimental Project**: This project is highly experimental and can crash at any time.
+> 
+> **Driver Requirement**: You must install the [AMD Agility SDK Driver](https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-MS-AGILITY-SDK-2023-6-711.html) for this fix to work.
+> 
+> **Other Games**: This proxy is not limited to Forza Horizon 6. It can be used to bypass DirectX 12 Feature Level checks in other games (successfully tested in *Assassin's Creed Shadows*).
+
 ## 🛠️ How It Works
 
 This fix acts as a custom `d3d12.dll`. When the game tries to use DirectX 12, this proxy steps in and makes a few changes so the game doesn't crash:
