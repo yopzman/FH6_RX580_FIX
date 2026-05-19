@@ -18,7 +18,7 @@ The fix uses two proxy DLLs to trick the game into thinking your hardware is sup
 Here is how the project is organized:
 
 ```
-Forza-Horizon-6-RX-580-FH201-FH205-Fix/
+FH6_RX580_FIX/
 ├── 📁 bin/                  # Pre-compiled DLLs (ready to use)
 │   ├── 📄 d3d12.dll         # GPU fix
 │   └── 📄 version.dll       # CPU fix
