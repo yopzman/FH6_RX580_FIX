@@ -1,45 +1,39 @@
-# 🧠 CPU Fix Proxy (`version.dll`) — Mechanics & Compilation
+# 🧠 CPU Fix Proxy (`version.dll`)
 
-This component is designed to resolve the hard **FH101** warning dialog during the launch of Forza Horizon 6. The game requires a minimum of 12 *logical processors* to pass the startup compatibility check.
+This fix is made to bypass the **FH101** error you get when trying to run Forza Horizon 6 on a CPU with fewer than 12 logical processors.
 
-## 🛠️ Technical Mechanism Details
+## 🛠️ How It Works
 
-This fix utilizes runtime DLL Proxying against the native Windows `version.dll` library. When the game loads this proxy, the module executes a three-stage bypass sequentially:
+The fix uses a DLL proxy (`version.dll`) that intercepts the game's startup sequence and does three main things:
 
-1. **PEB Spoofing (Process Environment Block)**:
-   - Modifies the `ActiveProcessorAffinityMask` bitmask directly inside the process's PEB structure at startup (`gs:[60h]` on x64).
-   - This technique is extremely fast and 100% safe as it does not trigger the loader lock or require Windows APIs.
-2. **Environment Variable Spoofing**:
-   - Manipulates the `NUMBER_OF_PROCESSORS` system environment variable to `12` using the `SetEnvironmentVariableA` API.
-3. **Safe Asynchronous IAT Hooking**:
-   - The proxy performs a scan of the main game's (`ForzaHorizon6.exe`) Import Address Table (IAT) to hook native Windows hardware query functions:
-     - `GetSystemInfo`
-     - `GetNativeSystemInfo`
-     - `GetLogicalProcessorInformation`
-     - `GetLogicalProcessorInformationEx`
-     - `GetActiveProcessorCount`
-   - **Loader Lock Bypass**: Unlike older proxy versions that scanned modules synchronously within `DllMain` (which frequently triggered deadlocks/random startup crashes), this version launches the global IAT scan asynchronously via a **background thread** with a 50ms delay after the Loader Lock has been fully released. This guarantees 100% game stability.
+1. **PEB Spoofing**:
+   - It quietly edits the `ActiveProcessorAffinityMask` right as the game starts up. This method is incredibly fast and avoids triggering any Windows loader locks.
+2. **Environment Variable Trick**:
+   - It forces the `NUMBER_OF_PROCESSORS` system variable to `12` so the game thinks you have enough cores.
+3. **Safe IAT Hooking**:
+   - The proxy scans the game's memory to intercept hardware queries (like `GetSystemInfo`).
+   - **Why this is better now**: In older versions, doing this immediately caused random crashes. Now, the scan runs safely in the background just after the game finishes loading, ensuring 100% stability.
 
 ---
 
-## 💻 Compiling from Source Code
+## 💻 Compiling it Yourself
 
-### Prerequisites
+### What You Need
 - Visual Studio 2022 (or Build Tools 2022).
-- C++ Desktop Development workload installed.
+- The C++ Desktop Development workload.
 
-### Build Steps
-1. Open a PowerShell terminal in this folder (`cpu_fix/`).
-2. Run the automated build script:
+### How to Build
+1. Open PowerShell inside this folder (`cpu_fix/`).
+2. Run the build script:
    ```powershell
    .\build_cpu_fix.ps1
    ```
-3. Your compiled binary (`version.dll`) will be located in the `build/` folder.
+3. Grab your fresh `version.dll` from the `build/` folder.
 
 ---
 
-## 🚀 File Deployment
+## 🚀 Installation
 
-1. Copy `version.dll` from the `build/` folder.
-2. Paste the file into the directory where `ForzaHorizon6.exe` is located.
-3. Launch the game normally.
+1. Copy the `version.dll` file.
+2. Drop it in the same folder as `ForzaHorizon6.exe`.
+3. Start the game.
