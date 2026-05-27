@@ -1,8 +1,8 @@
-# DirectX 12 + CPU Proxy Fix — `d3d12.dll` + `version.dll`
+# Forza Horizon 6 Fix — AMD RX 580 & CPU Core Bypass
 
-This repository contains a low-level proxy fix that uses two DLLs — `d3d12.dll` and `version.dll` — to bypass unsupported GPU and CPU checks for older hardware.
+This repository contains a fix to get **Forza Horizon 6** running on older hardware, specifically the AMD Radeon RX 580 (Polaris) and CPUs that don't meet the game's strict core count requirements.
 
-The fix is built around two proxy DLLs that make the application believe the system supports modern DirectX 12 features and a sufficient core count.
+The fix uses two proxy DLLs to trick the game into thinking your hardware is supported, bypassing the startup crashes.
 
 > [!WARNING]
 > **Experimental Project**: This project is highly experimental and can crash at any time. Use at your own risk!
@@ -18,7 +18,7 @@ The fix is built around two proxy DLLs that make the application believe the sys
 Here is how the project is organized:
 
 ```
-d3d12_version_proxy/
+FH6_RX580_FIX/
 ├── 📁 bin/                  # Pre-compiled DLLs (ready to use)
 │   ├── 📄 d3d12.dll         # GPU fix
 │   └── 📄 version.dll       # CPU fix
