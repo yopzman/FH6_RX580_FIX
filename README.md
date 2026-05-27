@@ -13,6 +13,20 @@ The fix uses two proxy DLLs to trick the game into thinking your hardware is sup
 
 ---
 
+## 🖥️ Test System Specifications
+
+This fix is actively developed and tested on the following system configuration:
+
+| Component | Specification |
+| :--- | :--- |
+| **CPU** | Intel Core i5-6500 (4 Cores / 4 Threads, Skylake-S) |
+| **GPU** | AMD Radeon RX 580 2048SP (8 GB GDDR5, 256-bit, Polaris 20) |
+| **RAM** | 16 GB DDR4 SDRAM Dual-Channel (Essencore DDR4-3200) |
+| **OS** | Microsoft Windows 11 IoT Enterprise LTSC (x64, Build 26100.8457, 24H2) |
+| **Boot Mode** | UEFI Boot with Secure Boot & TPM Enabled |
+
+---
+
 ## 📁 Project Structure
 
 Here is how the project is organized:
