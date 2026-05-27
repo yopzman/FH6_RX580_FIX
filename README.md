@@ -21,7 +21,7 @@ This fix is actively developed and tested on the following system configuration:
 | :--- | :--- |
 | **CPU** | Intel Core i5-6500 (4 Cores / 4 Threads, Skylake-S) |
 | **GPU** | AMD Radeon RX 580 2048SP (8 GB GDDR5, 256-bit, Polaris 20) |
-| **RAM** | 16 GB DDR4 SDRAM Dual-Channel (Essencore DDR4-3200) |
+| **RAM** | 16 GB DDR4 |
 | **OS** | Microsoft Windows 11 IoT Enterprise LTSC (x64, Build 26100.8457, 24H2) |
 | **Boot Mode** | UEFI Boot with Secure Boot & TPM Enabled |
 
