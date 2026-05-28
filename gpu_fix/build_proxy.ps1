@@ -29,14 +29,14 @@ if ($vswhere) {
 }
 
 if ($vcvars) {
-    cmd /c "`"$vcvars`" >nul && ml64.exe /nologo /c /Fo `"$AsmObj`" `"$Asm`" && cl.exe /nologo /EHsc /std:c++17 /LD `"$Src`" `"$AsmObj`" /Fe:`"$Out`" /Fo:`"$Obj`" /link /DEF:`"$Def`" advapi32.lib"
+    cmd /c "`"$vcvars`" >nul && ml64.exe /nologo /c /Fo `"$AsmObj`" `"$Asm`" && cl.exe /nologo /EHa /std:c++17 /LD `"$Src`" `"$AsmObj`" /Fe:`"$Out`" /Fo:`"$Obj`" /link /DEF:`"$Def`" advapi32.lib"
     exit $LASTEXITCODE
 }
 
 if (Get-Command cl.exe -ErrorAction SilentlyContinue) {
     & ml64.exe /nologo /c /Fo $AsmObj $Asm
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    & cl.exe /nologo /EHsc /std:c++17 /LD $Src $AsmObj /Fe:$Out /Fo:$Obj /link /DEF:$Def advapi32.lib
+    & cl.exe /nologo /EHa /std:c++17 /LD $Src $AsmObj /Fe:$Out /Fo:$Obj /link /DEF:$Def advapi32.lib
     exit $LASTEXITCODE
 }
 

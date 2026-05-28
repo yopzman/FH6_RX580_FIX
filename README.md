@@ -24,6 +24,8 @@ This fix is actively developed and tested on the following system configuration:
 | **RAM** | 16 GB DDR4 |
 | **OS** | Microsoft Windows 11 IoT Enterprise LTSC (x64, Build 26100.8457, 24H2) |
 | **Boot Mode** | UEFI Boot with Secure Boot & TPM Enabled |
+| **Graphics Preset** | Medium |
+| **Upscaler** | AMD FSR 3.1.5 (Balanced) |
 
 ---
 
@@ -93,4 +95,4 @@ You'll find your newly compiled DLLs inside the `build/` folder of each componen
 
 ## 📝 Release Notes
 
-The latest version (v2.3) includes a much safer hooking method for the CPU proxy. The game should now be perfectly stable during startup with no random crashes.
+The latest version (v2.3) includes a much safer hooking method for the CPU proxy. The game is confirmed to run stably at **Medium** graphics settings with **FSR 3.1.5 Balanced** and no crashes during gameplay.
