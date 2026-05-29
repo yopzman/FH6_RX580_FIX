@@ -1312,7 +1312,7 @@ static HRESULT STDMETHODCALLTYPE HookedCheckFeatureSupport(
 
   // ---- Logging with single-success filter ----
   static bool loggedFeatures[128] = {false};
-  if (SUCCEEDED(hr) && feature < 128) {
+  if (SUCCEEDED(hr) && static_cast<unsigned int>(feature) < 128) {
     if (!loggedFeatures[feature]) {
       loggedFeatures[feature] = true;
       char buf[256]{};
