@@ -1343,8 +1343,8 @@ static HRESULT STDMETHODCALLTYPE HookedCheckFeatureSupport(
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_FEATURE_LEVELS)) {
     auto *levels = reinterpret_cast<D3D12_FEATURE_DATA_FEATURE_LEVELS *>(
         pFeatureSupportData);
-    levels->MaxSupportedFeatureLevel = D3D_FEATURE_LEVEL_12_2;
-    Log("Spoof: FEATURE_LEVELS -> S_OK, MaxSupportedFeatureLevel -> 12_2");
+    levels->MaxSupportedFeatureLevel = D3D_FEATURE_LEVEL_12_1;
+    Log("Spoof: FEATURE_LEVELS -> S_OK, MaxSupportedFeatureLevel -> 12_1");
     return S_OK;
   }
 
@@ -1361,72 +1361,65 @@ static HRESULT STDMETHODCALLTYPE HookedCheckFeatureSupport(
     return hr;
   }
 
-  // === SPOOF: D3D12_OPTIONS -> force ROVsSupported = TRUE ===
+  // === SPOOF: D3D12_OPTIONS -> force ROVsSupported = FALSE ===
   if (feature == D3D12_FEATURE_D3D12_OPTIONS &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS)) {
     auto *opts = reinterpret_cast<D3D12_FEATURE_DATA_D3D12_OPTIONS *>(
         pFeatureSupportData);
-    opts->ROVsSupported = TRUE;
-    Log("Spoof: OPTIONS ROVsSupported forced TRUE (required for modern GPU "
-        "profile)");
-    return hr;
+    opts->ROVsSupported = FALSE;
+    Log("Spoof: OPTIONS ROVsSupported forced FALSE (RX 580 limitation)");
+    return S_OK;
   }
 
-  // === SPOOF: OPTIONS5 -> force Raytracing SUPPORTED ===
+  // === SPOOF: OPTIONS5 -> force Raytracing NOT SUPPORTED ===
   if (feature == D3D12_FEATURE_D3D12_OPTIONS5 &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5)) {
     auto *opts5 = reinterpret_cast<D3D12_FEATURE_DATA_D3D12_OPTIONS5 *>(
         pFeatureSupportData);
-    opts5->RaytracingTier = D3D12_RAYTRACING_TIER_1_1;
-    Log("Spoof: OPTIONS5 RaytracingTier forced D3D12_RAYTRACING_TIER_1_1 "
-        "(required for modern GPU profile)");
-    return hr;
+    opts5->RaytracingTier = D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
+    Log("Spoof: OPTIONS5 RaytracingTier forced NOT_SUPPORTED");
+    return S_OK;
   }
 
-  // === SPOOF: OPTIONS6 -> force VRS SUPPORTED ===
+  // === SPOOF: OPTIONS6 -> force VRS NOT SUPPORTED ===
   if (feature == D3D12_FEATURE_D3D12_OPTIONS6 &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS6)) {
     auto *opts6 = reinterpret_cast<D3D12_FEATURE_DATA_D3D12_OPTIONS6 *>(
         pFeatureSupportData);
-    opts6->VariableShadingRateTier = D3D12_VARIABLE_SHADING_RATE_TIER_2;
-    opts6->AdditionalShadingRatesSupported = TRUE;
-    Log("Spoof: OPTIONS6 VRS forced D3D12_VARIABLE_SHADING_RATE_TIER_2 "
-        "(required for modern GPU profile)");
-    return hr;
+    opts6->VariableShadingRateTier = D3D12_VARIABLE_SHADING_RATE_TIER_NOT_SUPPORTED;
+    opts6->AdditionalShadingRatesSupported = FALSE;
+    Log("Spoof: OPTIONS6 VRS forced NOT_SUPPORTED");
+    return S_OK;
   }
 
-  // === SPOOF: OPTIONS7 -> force MeshShader and SamplerFeedback SUPPORTED ===
+  // === SPOOF: OPTIONS7 -> force MeshShader and SamplerFeedback NOT SUPPORTED ===
   if (feature == D3D12_FEATURE_D3D12_OPTIONS7 &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS7)) {
     auto *opts7 = reinterpret_cast<D3D12_FEATURE_DATA_D3D12_OPTIONS7 *>(
         pFeatureSupportData);
-    opts7->MeshShaderTier = D3D12_MESH_SHADER_TIER_1;
-    opts7->SamplerFeedbackTier = D3D12_SAMPLER_FEEDBACK_TIER_1_0;
-    Log("Spoof: OPTIONS7 MeshShader forced D3D12_MESH_SHADER_TIER_1 & "
-        "SamplerFeedback forced D3D12_SAMPLER_FEEDBACK_TIER_1_0");
-    return hr;
+    opts7->MeshShaderTier = D3D12_MESH_SHADER_TIER_NOT_SUPPORTED;
+    opts7->SamplerFeedbackTier = D3D12_SAMPLER_FEEDBACK_TIER_NOT_SUPPORTED;
+    Log("Spoof: OPTIONS7 MeshShader and SamplerFeedback forced NOT_SUPPORTED");
+    return S_OK;
   }
 
-  // === SPOOF: OPTIONS12 -> force EnhancedBarriers SUPPORTED (with proxy hook)
-  // ===
+  // === SPOOF: OPTIONS12 -> force EnhancedBarriers SUPPORTED (with proxy hook) ===
   if (feature == D3D12_FEATURE_D3D12_OPTIONS12 &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS12)) {
     auto *opts12 = reinterpret_cast<D3D12_FEATURE_DATA_D3D12_OPTIONS12 *>(
         pFeatureSupportData);
     opts12->EnhancedBarriersSupported = TRUE;
-    Log("Spoof: OPTIONS12 EnhancedBarriersSupported forced TRUE (required "
-        "feature bypass + proxy translation active)");
-    return hr;
+    Log("Spoof: OPTIONS12 EnhancedBarriersSupported forced TRUE (required feature bypass + proxy translation active)");
+    return S_OK;
   }
 
   if (feature == D3D12_FEATURE_SHADER_MODEL &&
       featureSupportDataSize >= sizeof(D3D12_FEATURE_DATA_SHADER_MODEL)) {
     auto *sm = reinterpret_cast<D3D12_FEATURE_DATA_SHADER_MODEL *>(
         pFeatureSupportData);
-    sm->HighestShaderModel = static_cast<D3D_SHADER_MODEL>(0x66); // SM 6.6
-    Log("Spoof: SHADER_MODEL HighestShaderModel forced to 0x66 (SM 6.6 "
-        "fallback)");
-    return hr;
+    sm->HighestShaderModel = static_cast<D3D_SHADER_MODEL>(0x62); // SM 6.2
+    Log("Spoof: SHADER_MODEL HighestShaderModel forced to 0x62 (SM 6.2 fallback for GCN)");
+    return S_OK;
   }
 
   return hr;
